@@ -39,7 +39,7 @@ int main()
         bool curr = testCase(str_cases[iter], expected[iter], res);
         std::cout << "test \"" << str_cases[iter] << "\" is " << (curr ? "ok" : "failed") << '\n';
         std::cout << "\tresult: " << res << " expected " << expected[iter] << '\n';
-        result = result & curr;
+        result = result && curr;
     }
     std::cout << "Total result: " << result << '\n';
 
