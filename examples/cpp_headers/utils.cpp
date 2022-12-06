@@ -4,10 +4,16 @@
 inline void shout(){
     std::cout << "utils\n";
 }
+static void shout2()
+{
+    std::cout << "utils\n";
+}
 
 void test_inline()
 {
     shout();
+    std::cout << GLOBAL_VAR << std::endl;
+    shout2();
 }
 
 int** createMatrix(int rows, int cols)

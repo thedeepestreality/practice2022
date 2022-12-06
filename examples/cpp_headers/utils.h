@@ -11,4 +11,11 @@ void test_inline();
 inline int sum(int a, int b){
     return a+b;
 }
+
+static int prod(int a, int b)
+{
+    return a*b;
+}
+
+static int GLOBAL_VAR = 666;
 #endif

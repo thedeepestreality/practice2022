@@ -6,9 +6,16 @@ inline void shout(){
     std::cout << "main2\n";
 }
 
+static void shout2()
+{
+    std::cout << "main2\n";
+}
+
 int main()
 {
+    GLOBAL_VAR = 1;
     shout();
+    shout2();
     test_inline();
 
     const int cRows = 3;
