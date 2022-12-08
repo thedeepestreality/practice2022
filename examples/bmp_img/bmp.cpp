@@ -2,7 +2,7 @@
 #include <fstream>
 
 int main(){
-    std::ifstream in("Lenna2.bmp", std::ios::binary);
+    std::ifstream in("Lenna.bmp", std::ios::binary);
     if (!in){
         std::cout << "failed to open file" << std::endl;
         return 1;
@@ -37,24 +37,19 @@ int main(){
     int32_t img_size;
     in.read((char*)&img_size, 4);
     std::cout << "img size: " << img_size << std::endl;
-    
-    in.seekg(16, std::ios::cur);
-    in.read((char*)buf, 3);
-    //img[0][0] - B G R - 57 22 82
-    std::cout << "BGR[511][0]: " << (int)buf[0] << ' ';
-    std::cout << (int)buf[1] << ' ';
-    std::cout << (int)buf[2] << std::endl;
+    // in.seekg(16, std::ios::cur);
 
-    in.read((char*)buf, 3);
-    std::cout << "BGR[511][1]: " << (int)buf[0] << ' ';
-    std::cout << (int)buf[1] << ' ';
-    std::cout << (int)buf[2] << std::endl;
-
-    in.read((char*)buf, 3);
-    std::cout << "BGR[511][2]: " << (int)buf[0] << ' ';
-    std::cout << (int)buf[1] << ' ';
-    std::cout << (int)buf[2] << std::endl;
-
+    std::ofstream out("out.bmp", std::ios::binary);
+    in.seekg(0, std::ios::beg);
+    in.read((char*)buf, 54);
+    out.write((char*)buf, 54);
+    for (int row = 0; row < height; ++row)
+        for (int col = 0; col < width; ++col)
+        {
+            in.read((char*)buf, 3);
+            out.write((char*)buf, 3);
+        }
     in.close();
+    out.close();
     return 0;
 }
