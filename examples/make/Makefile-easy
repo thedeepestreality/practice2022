@@ -1,0 +1,11 @@
+all: main sqr hello
+	cl main.obj hello.obj sqr.obj
+
+main:
+	cl main.cpp /c
+
+hello:
+	cl hello.cpp /c
+
+sqr:
+	cl sqr.cpp /c
