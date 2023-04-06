@@ -42,8 +42,7 @@ public:
     class VecProxy;
 
     VecProxy operator[](int idx){
-        size_t bit_idx = m_bit_size % 8;
-        return VecProxy(m_data, bit_idx);
+        return VecProxy(m_data, idx);
     }
 
     class VecProxy{
@@ -74,10 +73,10 @@ int main(){
     x[1] = 2; 
     x[2] = 0;
 
-    Vector<bool> (3);
-    x[0] = 1;
-    x[1] = 0;
-    x[2] = 1;
-    std::cout << x[0] << std::endl;
+    Vector<bool> y(3);
+    y[0] = 1;
+    y[1] = 0;
+    y[2] = 1;
+    std::cout << y[0] << std::endl;
     return 0;
 }
