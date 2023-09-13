@@ -1,4 +1,3 @@
-
 // Server side implementation of UDP client-server model
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -15,7 +14,7 @@ int main()
 {
     char buffer[BUF_SZ];
     const char* msg_to_send = "Hello from server";
-      
+    
     // Creating socket file descriptor
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sockfd < 0) 
@@ -24,11 +23,12 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    sockaddr_in servaddr; 
+    sockaddr_in servaddr;
     memset(&servaddr, 0, sizeof(servaddr));
     // Filling server information
     servaddr.sin_family    = AF_INET; // IPv4
-    servaddr.sin_addr.s_addr = INADDR_ANY;
+    //servaddr.sin_addr.s_addr = INADDR_ANY;
+    servaddr.sin_addr.s_addr = inet_addr("172.23.101.34");
     servaddr.sin_port = htons(PORT);
        
     // Bind the socket with the server address
@@ -44,9 +44,10 @@ int main()
     memset(&cliaddr, 0, sizeof(cliaddr));
     socklen_t len = sizeof(cliaddr);
     int n = recvfrom(
-        sockfd, 
+        sockfd,
         (char *)buffer, 
-        BUF_SZ, 0, 
+        BUF_SZ, 
+        0, 
         (struct sockaddr *) &cliaddr, 
         &len
     );
@@ -66,6 +67,3 @@ int main()
     close(sockfd);
     return 0;
 }
-
-//my_sockaddress.sin_addr.s_addr = inet_addr("127.0.0.1");
-//bind(my_socket, (SOCKADDR *) &my_sockaddr, ...)

@@ -1,4 +1,3 @@
-
 // Client side implementation of UDP client-server model
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -28,7 +27,8 @@ int main()
     // Filling server information
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(PORT);
-    servaddr.sin_addr.s_addr = INADDR_ANY;
+    //servaddr.sin_addr.s_addr = INADDR_ANY;
+    servaddr.sin_addr.s_addr = inet_addr("172.23.101.34");
     
     socklen_t len = sizeof(servaddr);
     sendto(
