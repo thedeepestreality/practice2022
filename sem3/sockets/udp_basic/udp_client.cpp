@@ -27,8 +27,8 @@ int main()
     // Filling server information
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(PORT);
-    //servaddr.sin_addr.s_addr = INADDR_ANY;
-    servaddr.sin_addr.s_addr = inet_addr("172.23.101.34");
+    servaddr.sin_addr.s_addr = INADDR_ANY;
+    // servaddr.sin_addr.s_addr = inet_addr("172.23.101.34");
     
     socklen_t len = sizeof(servaddr);
     sendto(
@@ -41,6 +41,11 @@ int main()
     );
     std::cout<<"Message sent to server\n";
 
+    struct timeval read_timeout;
+    read_timeout.tv_sec = 0;
+    read_timeout.tv_usec = 10;
+    setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &read_timeout, sizeof read_timeout);
+
     int n = recvfrom(
         sockfd, 
         (char *)buffer, 
@@ -49,6 +54,13 @@ int main()
         (struct sockaddr *) &servaddr,     
         &len
     );
+
+    if (n < 0)
+    {
+        perror("socket read nothing");
+        exit(EXIT_FAILURE);
+    }
+
     buffer[n] = '\0';
     std::cout << "Message from server: " << buffer << "\n";
    
