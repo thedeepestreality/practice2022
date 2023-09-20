@@ -5,13 +5,17 @@
 #include <unistd.h>
 #include <cstring>
 #include <iostream>
-const int PORT = 2023;
+const int PORT = 80;
 
 int main(int argc, char const* argv[])
 {
 	int valread;
 	int opt = 1;
-    const char* hello = "Hello from server";
+    const char* hello = "HTTP/1.1 200 OK\n" \
+"Content-Length: 48\n" \
+"Content-Type: text/html\n" \
+"Connection: Closed\n\n" \
+"<html><body><h1>Hello, World!</h1></body></html>";
 	char buffer[1024] = { 0 };
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
 	// Creating socket file descriptor
@@ -20,22 +24,21 @@ int main(int argc, char const* argv[])
 		exit(EXIT_FAILURE);
 	}
 	// Forcefully attaching socket to the port 8080
-    int res;
-    // int res = setsockopt(
-    //     server_fd, 
-    //     SOL_SOCKET,
-	// 	SO_REUSEADDR | SO_REUSEPORT, 
-    //     &opt,
-	// 	sizeof(opt)
-    // );
-	// if (res < 0) {
-	// 	perror("setsockopt");
-	// 	exit(EXIT_FAILURE);
-	// }
+    int res = setsockopt(
+        server_fd, 
+        SOL_SOCKET,
+		SO_REUSEADDR | SO_REUSEPORT, 
+        &opt,
+		sizeof(opt)
+    );
+	if (res < 0) {
+		perror("setsockopt");
+		exit(EXIT_FAILURE);
+	}
     struct sockaddr_in address;
     int addrlen = sizeof(address);
 	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = INADDR_ANY;
+	address.sin_addr.s_addr = inet_addr("172.23.110.31");//INADDR_ANY;
 	address.sin_port = htons(PORT);
 
 	// Forcefully attaching socket to the port 8080
@@ -73,5 +76,6 @@ int main(int argc, char const* argv[])
 	close(new_socket);
 	// closing the listening socket
 	shutdown(server_fd, SHUT_RDWR);
+    close(server_fd);
 	return 0;
 }

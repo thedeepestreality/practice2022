@@ -10,7 +10,7 @@
 const int PORT = 2023;
 const int BUF_SZ = 1024;
 const char* MULTICAST_ADDR = "224.0.0.0";
-const char* INTERFACE_ADDR = "192.168.0.104";
+const char* INTERFACE_ADDR = "172.23.110.142";
 
 int main() 
 {

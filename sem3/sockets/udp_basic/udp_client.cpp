@@ -44,7 +44,7 @@ int main()
     struct timeval read_timeout;
     read_timeout.tv_sec = 0;
     read_timeout.tv_usec = 10;
-    setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &read_timeout, sizeof read_timeout);
+    setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &read_timeout, sizeof(read_timeout));
 
     int n = recvfrom(
         sockfd, 
@@ -54,7 +54,7 @@ int main()
         (struct sockaddr *) &servaddr,     
         &len
     );
-
+    
     if (n < 0)
     {
         perror("socket read nothing");
