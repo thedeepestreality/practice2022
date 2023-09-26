@@ -14,4 +14,9 @@ public:
     int send(std::string const& msg);
     int send(const char* buf, size_t sz);
     int recv(char* buf, size_t sz, bool block = true, int timeout_ns = 10);
+    ///TODO
+    //socket binding?
+    //UdpSocket()
+    //int recvfrom
+    //int sendto
 };
