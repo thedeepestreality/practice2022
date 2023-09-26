@@ -22,36 +22,34 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    struct sockaddr_in servaddr;
-    memset(&servaddr, 0, sizeof(servaddr));
+    sockaddr_in servaddr;
     // Filling server information
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(PORT);
-    servaddr.sin_addr.s_addr = INADDR_ANY;
-    // servaddr.sin_addr.s_addr = inet_addr("172.23.101.34");
-    
+    //servaddr.sin_addr.s_addr = INADDR_ANY;
+    servaddr.sin_addr.s_addr = inet_addr("192.168.113.102");
     socklen_t len = sizeof(servaddr);
     sendto(
         sockfd,
         msg_to_send,
         strlen(msg_to_send),
         0,
-        (const struct sockaddr *) &servaddr,
+        reinterpret_cast<sockaddr*>(&servaddr),
         len
     );
     std::cout<<"Message sent to server\n";
 
-    struct timeval read_timeout;
+    timeval read_timeout;
     read_timeout.tv_sec = 0;
     read_timeout.tv_usec = 10;
     setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &read_timeout, sizeof(read_timeout));
 
     int n = recvfrom(
         sockfd, 
-        (char *)buffer, 
+        buffer, 
         BUF_SZ, 
         0, 
-        (struct sockaddr *) &servaddr,     
+        reinterpret_cast<sockaddr*>(&servaddr),     
         &len
     );
     
